@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For My Param Mitra | Gargi</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap');
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #fce4ec 0%, #f8bbd0 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+            overflow: hidden;
+            color: #4a4a4a;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 600px;
+            z-index: 2;
+        }
+
+        /* Gargi's Name - Keeping Bold and Highlighted */
+        .highlight-name {
+            font-size: 2.2rem;
+            color: #d81b60;
+            text-shadow: 2px 2px 15px rgba(216, 27, 96, 0.4);
+            display: inline-block;
+            font-weight: 800;
+        }
+
+        .screen {
+            display: none;
+            animation: fadeIn 0.8s ease-out;
+        }
+        
+        .screen.active {
+            display: block;
+        }
+
+        .qu1, .qu2, .card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            padding: 35px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255,255,255,0.5);
+            margin: 20px auto;
+        }
+
+        /* HEADINGS REMAIN BOLD */
+        h1 { font-size: 2.2rem; font-weight: 800; color: #ad1457; line-height: 1.4; }
+
+        /* INSTRUCTIONS - LARGE BUT NOT BOLD */
+        #wait-msg {
+            font-size: 1.8rem;
+            font-weight: 400; 
+            color: #d81b60;
+            margin: 20px 0;
+        }
+
+        .instruction-text {
+            font-size: 1.5rem;
+            font-weight: 400; 
+            margin-bottom: 25px;
+            color: #555;
+        }
+
+        /* Buttons Styling */
+        .btn, button {
+            background-color: #ff4081;
+            color: white;
+            border: none;
+            padding: 14px 32px;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            margin: 10px;
+            font-weight: 600;
+            box-shadow: 0 5px 15px rgba(255, 64, 129, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            background-color: #f50057;
+        }
+
+        /* Countdown Boxes */
+        #countdown {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 30px 0;
+        }
+
+        #countdown div span {
+            display: inline-block;
+            background: #ffffff;
+            border-radius: 8px;
+            padding: 15px 20px;
+            min-width: 45px;
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #d63384;
+            box-shadow: 0 8px 18px rgba(0,0,0,0.15);
+            animation: boxPulse 1s infinite ease-in-out;
+        }
+
+        #countdown p {
+            margin-top: 8px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #888;
+            text-transform: uppercase;
+        }
+
+        @keyframes boxPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .bulbs { font-size: 3rem; color: #ccc; margin-bottom: 20px; transition: 0.5s; }
+        .bulbs.on { color: #ffd600; text-shadow: 0 0 20px #ffeb3b; }
+        
+        .balloon {
+            position: absolute;
+            bottom: -100px;
+            font-size: 3.5rem;
+            animation: floatUp 6s linear forwards;
+            z-index: 1;
+        }
+
+        @keyframes floatUp {
+            to { transform: translateY(-120vh) rotate(20deg); opacity: 0; }
+        }
+
+        .footer {
+            position: fixed;
+            bottom: 20px;
+            width: 100%;
+            left: 0;
+            font-size: 1rem;
+            color: black;
+            font-weight: 400;
+        }
+    </style>
+</head>
+<body>
+
+    <audio id="bdaySong" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="container">
+        
+        <div id="screen1" class="screen active">
+            <div class="qu1" id="q1-box">
+                <p style="font-size: 1.5rem; font-weight: 400;">Do you wanna see a cute surprise? 👀</p>
+                <button onclick="goNextQuestion()">Yes</button>
+                <button onclick="alert('Aww come on 😄 Try again!')">No</button>
+            </div>
+
+            <div class="qu2" id="q2-box" style="display: none;">
+                <p style="font-size: 1.5rem; font-weight: 400;">Have a look at it <b>Madam jii</b> 😍</p>
+                <button onclick="startCountdown()">Let's Go!</button>
+            </div>
+        </div>
+
+        <div id="screen2" class="screen">
+            <h1 style="font-weight: 700;">Counting down to <span class="highlight-name">Gargi's</span> special day!! 🍰</h1>
+            
+            <div id="countdown">
+                <div><span id="hours">00</span><p>Hours</p></div>
+                <div><span id="minutes">00</span><p>Mins</p></div>
+                <div><span id="seconds">00</span><p>Secs</p></div>
+            </div>
+            
+            <p id="wait-msg">Wait for it...</p>
+            <button class="btn" id="celeb-btn" style="display:none;" onclick="showPartyScreen()">Let's Celebrate!</button>
+        </div>
+
+        <div id="screen3" class="screen">
+            <div class="bulbs" id="bulb-string">💡💡💡💡</div>
+            <h1 style="font-weight: 800;">Prepare the Party! 🥳</h1>
+            <p class="instruction-text">Click everything to get ready</p>
+            <button onclick="playMusic()" id="m-btn">🎵 Music</button>
+            <button onclick="turnOnLights()" id="l-btn">💡 Lights</button>
+            <button onclick="decorate()" id="d-btn">🎈 Balloons</button>
+            <br><br>
+            <button class="btn" id="cake-btn" style="display:none; background-color:#d63384;" onclick="showFinalScreen()">🍭🍰 Cut Cake</button>
+        </div>
+
+        <div id="screen4" class="screen">
+            <span class="highlight-name" style="font-size: 3rem;">Happy Birthday!! 🌼</span>
+            <div class="card">
+                <p style="font-size: 1.3rem;"><b>Dear Gargi,</b></p>
+                <p style="font-size: 1.1rem; font-weight: 400;">Wishing you a day filled with happiness and a year filled with joy. You are incredibly special to me, my Param Mitra!</p>
+                <p style="font-size: 1.2rem; font-weight: 400;">Keep smiling always! ❤️</p>
+            </div>
+            <button class="btn" onclick="alert('Love you, Bestie!')">❤️</button>
+        </div>
+
+        <div class="footer">
+            <p>Made with ❤️ by Your Nitisha</p>
+        </div>
+    </div>
+
+    <script>
+        function goNextQuestion() {
+            document.getElementById('q1-box').style.display = 'none';
+            document.getElementById('q2-box').style.display = 'block';
+        }
+
+        function startCountdown() {
+            document.getElementById('screen1').classList.remove('active');
+            document.getElementById('screen2').classList.add('active');
+            runTimer();
+        }
+
+        function runTimer() {
+            let timeLeft = 5;
+            const timer = setInterval(() => {
+                let seconds = timeLeft % 60;
+                document.getElementById("seconds").innerText = String(seconds).padStart(2, "0");
+                timeLeft--;
+
+                if (timeLeft < 0) {
+                    clearInterval(timer);
+                    document.getElementById('wait-msg').innerText = "Ready! 😍";
+                    document.getElementById('wait-msg').style.fontSize = "2.5rem";
+                    document.getElementById('celeb-btn').style.display = 'inline-block';
+                }
+            }, 1000);
+        }
+
+        function showPartyScreen() {
+            document.getElementById('screen2').classList.remove('active');
+            document.getElementById('screen3').classList.add('active');
+        }
+
+        function playMusic() {
+            document.getElementById("bdaySong").play().catch(e => console.log("Music play blocked."));
+            document.getElementById("m-btn").style.background = "#d63384";
+            checkCompletion();
+        }
+
+        function turnOnLights() {
+            document.getElementById("bulb-string").classList.add("on");
+            document.body.style.background = "linear-gradient(135deg, #fff9c4 0%, #fce4ec 100%)";
+            document.getElementById("l-btn").style.background = "#d63384";
+            checkCompletion();
+        }
+
+        function decorate() {
+            for(let i=0; i<25; i++) {
+                let b = document.createElement('div');
+                b.innerHTML = "🎈";
+                b.className = "balloon";
+                b.style.left = Math.random() * 95 + "%";
+                b.style.animationDuration = (Math.random() * 3 + 3) + "s";
+                document.body.appendChild(b);
+            }
+            document.getElementById("d-btn").style.background = "#d63384";
+            checkCompletion();
+        }
+
+        function checkCompletion() {
+            if(document.getElementById("bulb-string").classList.contains("on")) {
+                document.getElementById("cake-btn").style.display = 'inline-block';
+            }
+        }
+
+        function showFinalScreen() {
+            document.getElementById('screen3').classList.remove('active');
+            document.getElementById('screen4').classList.add('active');
+        }
+    </script>
+</body>
+</html>
